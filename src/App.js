@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useState, useCallback } from 'react';
 
 function App() {
+  
+  const [pokemon, updatePokemon] = useState([]);
+  const [cards, addCards] = useState([]);
+  
+  const api_path = "https://api.pokemontcg.io/v1/cards?name="
+  
+  const changePokemon = useCallback((event) => {
+    updatePokemon(event.target.value);
+    console.log(event.target.value);
+  }, []);
+  
+  const getPokemonCards = async (event) => {    
+      event.preventDefault();
+      //console.log();
+      const api_url = api_path + pokemon;
+      //console.log(api_url);
+      const response = await fetch(api_url);
+      const resJson = await response.json();
+      //console.log(resJson);
+  };
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form value={pokemon} onSubmit={getPokemonCards}>
+        <label>Search for Pokemon Cards:</label>
+        <input id="pokemon" name="pokemon" value={pokemon} onChange={changePokemon}></input>
+        <button>Search for Cards</button>
+      </form>
+
+      <span>
+      {pokemon}
+      </span>
     </div>
+  
   );
 }
 
