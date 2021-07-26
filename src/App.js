@@ -21,7 +21,16 @@ function App() {
       const response = await fetch(api_url);
       const resJson = await response.json();
       //console.log(resJson);
+      showPokemonCards(resJson);
   };
+
+  const showPokemonCards = useCallback((data) => {
+    console.log(data);
+    data.cards.forEach(card => {
+      addCards(card);
+      console.log(card);
+    });
+  }, []);
   
   return (
     <div>
